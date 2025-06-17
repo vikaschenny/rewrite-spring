@@ -201,3 +201,5 @@ For issues and questions:
 - Check the [GitHub Issues](https://github.com/openrewrite/rewrite-spring-go/issues)
 - Refer to the [OpenRewrite Documentation](https://docs.openrewrite.org/)
 - Join the [OpenRewrite Community](https://join.slack.com/t/rewriteoss/shared_invite/zt-nj42n3ea-b~62rIHzb3Vo0E1APKCXEA)
+
+go build -o rewrite-spring-go cmd/rewrite-spring/main.go
