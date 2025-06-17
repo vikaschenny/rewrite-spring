@@ -86,7 +86,6 @@ func (r *ChangeSpringPropertyKeyRecipe) applyToProperties(sourceFile core.Source
 		}
 
 		key := strings.TrimSpace(parts[0])
-		value := strings.TrimSpace(parts[1])
 
 		if r.shouldTransformKey(key) {
 			newKey := r.transformPropertyKey(key)
@@ -113,14 +112,11 @@ func (r *ChangeSpringPropertyKeyRecipe) applyToYAML(sourceFile core.SourceFile) 
 	modified := false
 
 	for i, line := range lines {
-		if strings.Contains(line, ":") && !strings.TrimSpace(line)[0:1] == "#" {
+		if strings.Contains(line, ":") && !strings.HasPrefix(strings.TrimSpace(line), "#") {
 			// Extract the key part before the colon
 			parts := strings.SplitN(line, ":", 2)
 			if len(parts) == 2 {
 				keyPart := strings.TrimSpace(parts[0])
-
-				// Handle nested YAML properties by building the full path
-				indent := len(line) - len(strings.TrimLeft(line, " "))
 
 				if r.shouldTransformKey(keyPart) {
 					newKey := r.transformPropertyKey(keyPart)
@@ -152,10 +148,6 @@ func (r *ChangeSpringPropertyKeyRecipe) applyToJava(sourceFile core.SourceFile) 
 		submatch := valuePattern.FindStringSubmatch(match)
 		if len(submatch) >= 2 {
 			propertyKey := submatch[1]
-			remainder := ""
-			if len(submatch) > 2 {
-				remainder = submatch[2]
-			}
 
 			if r.shouldTransformKey(propertyKey) {
 				newKey := r.transformPropertyKey(propertyKey)
